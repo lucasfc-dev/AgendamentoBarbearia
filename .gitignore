@@ -1,0 +1,75 @@
+############################
+# Maven
+############################
+target/
+!.mvn/wrapper/maven-wrapper.jar
+.mvn/timing.properties
+
+############################
+# IntelliJ IDEA
+############################
+.idea/
+*.iml
+*.iws
+out/
+
+############################
+# Eclipse (caso alguém abra o projeto)
+############################
+.project
+.classpath
+.settings/
+.factorypath
+
+############################
+# VS Code (opcional)
+############################
+.vscode/
+
+############################
+# Java
+############################
+*.class
+
+############################
+# Spring Boot
+############################
+# Configurações sensíveis (JWT, senha, etc)
+application.properties
+application.yml
+application-*.yml
+
+############################
+# Logs
+############################
+*.log
+logs/
+
+############################
+# Banco / Dev
+############################
+*.db
+*.trace.db
+
+############################
+# Testes
+############################
+surefire-reports/
+failsafe-reports/
+
+############################
+# Coverage
+############################
+jacoco/
+*.exec
+
+############################
+# OS
+############################
+.DS_Store
+Thumbs.db
+
+############################
+# Env
+############################
+.env
