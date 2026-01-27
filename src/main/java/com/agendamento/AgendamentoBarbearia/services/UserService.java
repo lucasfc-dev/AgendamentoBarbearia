@@ -36,4 +36,15 @@ public class UserService {
 
         return userFactory(userData,Role.USER_ROLE);
     }
+
+    public User createAdmin(CreateUserDTO userData) throws BusinessException{
+        if(userRepository.existsByUsername(userData.getUsername())){
+            throw new BusinessException("Nome de usuário já existe");
+        }
+        if(userRepository.existsByEmail(userData.getEmail())){
+            throw new BusinessException("Email já cadastrado");
+        }
+
+        return userFactory(userData,Role.ADMIN_ROLE);
+    }
 }

@@ -1,0 +1,50 @@
+package com.agendamento.AgendamentoBarbearia.services;
+
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.JWTVerifier;
+import com.auth0.jwt.algorithms.Algorithm;
+import com.auth0.jwt.exceptions.JWTCreationException;
+import com.auth0.jwt.exceptions.JWTVerificationException;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
+
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
+
+@Service
+public class JWTService {
+    @Value("${api.security.secret}")
+    private String secret;
+
+    public String generateToken(String username){
+        try {
+            Algorithm algorithm = Algorithm.HMAC512(secret);
+            return JWT.create()
+                    .withIssuer("barbearia-api")
+                    .withSubject(username)
+                    .withExpiresAt(getExpirationTime())
+                    .sign(algorithm);
+        } catch (JWTCreationException exception){
+            return "";
+        }
+    }
+
+    public String verifyToken(String token){
+        try {
+            Algorithm algorithm = Algorithm.HMAC512(secret);
+            JWTVerifier verifier = JWT.require(algorithm)
+                    // specify any specific claim validations
+                    .withIssuer("auth0")
+                    // reusable verifier instance
+                    .build();
+            var decodedJWT = verifier.verify(token);
+            return decodedJWT.getToken();
+        } catch (JWTVerificationException exception){
+            return "";
+        }
+    }
+
+    private Instant getExpirationTime() {
+        return Instant.now().plus(2, ChronoUnit.HOURS);
+    }
+}

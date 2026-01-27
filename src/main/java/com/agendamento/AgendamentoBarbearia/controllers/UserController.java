@@ -17,5 +17,9 @@ public class UserController {
         return userService.createUser(userData);
     }
 
+    @PostMapping("/admin")
+    public User createAdmin(@RequestBody CreateUserDTO userData){
+        return userService.createAdmin(userData);
+    }
 
 }

@@ -4,6 +4,7 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.http.HttpFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -26,8 +27,12 @@ public class SecurityConfiguration {
                 .formLogin(form -> form.disable())
                 .authorizeHttpRequests(auth ->
                         auth
-                                .requestMatchers("/user/teste").authenticated()
-                                .anyRequest().permitAll())
+                                .requestMatchers("/auth/login").permitAll()
+                                .requestMatchers(HttpMethod.POST,"/user").permitAll()
+                                .requestMatchers("/user/admin").hasRole("ADMIN_ROLE")
+                                .anyRequest().authenticated()
+                )
+                .addFilterBefore()
                 .build();
     }
 
@@ -42,4 +47,6 @@ public class SecurityConfiguration {
     public PasswordEncoder passwordEncoder(){
         return new BCryptPasswordEncoder();
     }
+
+
 }
