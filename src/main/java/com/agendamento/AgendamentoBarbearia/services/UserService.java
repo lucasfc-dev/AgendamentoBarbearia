@@ -4,10 +4,14 @@ import com.agendamento.AgendamentoBarbearia.dto.CreateUserDTO;
 import com.agendamento.AgendamentoBarbearia.entities.User;
 import com.agendamento.AgendamentoBarbearia.enums.Role;
 import com.agendamento.AgendamentoBarbearia.exceptions.classes.BusinessException;
+import com.agendamento.AgendamentoBarbearia.exceptions.classes.NotFoundException;
 import com.agendamento.AgendamentoBarbearia.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.UUID;
 
 @Service
 public class UserService {
@@ -46,5 +50,17 @@ public class UserService {
         }
 
         return userFactory(userData,Role.ADMIN_ROLE);
+    }
+
+    public List<User> getUsers(){
+        return userRepository.findAll();
+    }
+
+    public User getUserById(UUID id){
+        return userRepository.findById(id).orElseThrow(() -> new NotFoundException("Usuário não encontrado"));
+    }
+
+    public User getUserByUsername(String username) throws  NotFoundException{
+        return userRepository.findByUsername(username).orElseThrow(() -> new NotFoundException("Usuário não encontrado"));
     }
 }
