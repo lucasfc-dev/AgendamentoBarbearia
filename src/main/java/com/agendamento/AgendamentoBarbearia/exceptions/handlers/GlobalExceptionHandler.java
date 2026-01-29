@@ -4,6 +4,7 @@ import com.agendamento.AgendamentoBarbearia.exceptions.classes.BusinessException
 import com.agendamento.AgendamentoBarbearia.exceptions.classes.NotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -17,8 +18,8 @@ public class GlobalExceptionHandler {
                 .body(ex.getMessage());
     }
 
-    @ExceptionHandler(NotFoundException.class)
-    public ResponseEntity<String> notFoundException(NotFoundException ex){
+    @ExceptionHandler({UsernameNotFoundException.class, NotFoundException.class})
+    public ResponseEntity<String> notFoundException(RuntimeException ex){
         return ResponseEntity
                 .status(HttpStatus.NOT_FOUND)
                 .body(ex.getMessage());
