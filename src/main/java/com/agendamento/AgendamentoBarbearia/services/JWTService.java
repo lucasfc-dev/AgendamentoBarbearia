@@ -13,12 +13,15 @@ import java.time.temporal.ChronoUnit;
 
 @Service
 public class JWTService {
-    @Value("${api.security.secret}")
-    private String secret;
+    private Algorithm algorithm;
+
+    public JWTService(@Value("${api.config.security.secret}") String secret) {
+        algorithm = Algorithm.HMAC256(secret);
+    }
+
 
     public String generateToken(String username){
         try {
-            Algorithm algorithm = Algorithm.HMAC512(secret);
             return JWT.create()
                     .withIssuer("barbearia-api")
                     .withSubject(username)
@@ -31,7 +34,6 @@ public class JWTService {
 
     public String verifyToken(String token){
         try {
-            Algorithm algorithm = Algorithm.HMAC512(secret);
             JWTVerifier verifier = JWT.require(algorithm)
                     // specify any specific claim validations
                     .withIssuer("auth0")
