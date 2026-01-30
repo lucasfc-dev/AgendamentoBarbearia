@@ -35,12 +35,10 @@ public class JWTService {
     public String verifyToken(String token){
         try {
             JWTVerifier verifier = JWT.require(algorithm)
-                    // specify any specific claim validations
-                    .withIssuer("auth0")
-                    // reusable verifier instance
+                    .withIssuer("barbearia-api")
                     .build();
             var decodedJWT = verifier.verify(token);
-            return decodedJWT.getToken();
+            return decodedJWT.getSubject();
         } catch (JWTVerificationException exception){
             return "";
         }

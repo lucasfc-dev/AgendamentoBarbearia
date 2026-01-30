@@ -1,10 +1,12 @@
 package com.agendamento.AgendamentoBarbearia.controllers;
 
 import com.agendamento.AgendamentoBarbearia.dto.LoginDTO;
+import com.agendamento.AgendamentoBarbearia.dto.UserResponseDTO;
 import com.agendamento.AgendamentoBarbearia.entities.User;
 import com.agendamento.AgendamentoBarbearia.services.AuthenticationService;
 import com.agendamento.AgendamentoBarbearia.services.JWTService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -27,16 +29,11 @@ public class AuthController {
         authenticationManager.authenticate(auth);
         return jwtService.generateToken(loginData.getUsername());
     }
-    //Forma mais elegante, injetando o principal da instância de Authentication;
-    @GetMapping("/current_authenticated")
-    public UserDetails getCurrentAuthenticated(
-            @AuthenticationPrincipal UserDetails user) {
-        return user;
-    }
 
     //O Spring injeta automaticamente a instância de Authentication criada no SecurityFilter;
-//    @GetMapping("/current_authenticated")
-//    public User getCurrentAuthenticated(Authentication authentication){
-//        return (User) authentication.getPrincipal();
-//    }
+    @GetMapping("/current_authenticated")
+    public ResponseEntity<UserResponseDTO> getCurrentAuthenticated(Authentication authentication){
+        User authenticatedUser = (User) authentication.getPrincipal();
+        return ResponseEntity.ok(UserResponseDTO.from(authenticatedUser));
+    }
 }

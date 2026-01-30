@@ -27,7 +27,7 @@ public class AuthenticationFilter extends OncePerRequestFilter {
     @Autowired
     JWTService jwtService;
     @Autowired
-    UserDetailsService userDetailsService;
+    UserRepository userRepository;
 
     @Override
     protected void doFilterInternal(
@@ -38,33 +38,27 @@ public class AuthenticationFilter extends OncePerRequestFilter {
 
         try {
             var authHeader = request.getHeader("Authorization");
-
-            if (authHeader != null && authHeader.startsWith("Bearer ")) {
-                var token = authHeader.substring(7);
-                var username = jwtService.verifyToken(token);
-
-                var user = userDetailsService.loadUserByUsername(username);
-
-                var auth = new UsernamePasswordAuthenticationToken(
-                        user,
-                        null,
-                        user.getAuthorities()
-                );
-
-                SecurityContextHolder.getContext().setAuthentication(auth);
+            if(authHeader == null || !authHeader.startsWith("Bearer ")){
+                filterChain.doFilter(request, response);
+                return;
             }
+            var token = authHeader.substring(7);
 
-            filterChain.doFilter(request, response);
+            var decodedToken = jwtService.verifyToken(token);
 
-        } catch (UsernameNotFoundException ex) {
-            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-            response.setContentType("application/json");
-            response.getWriter().write("""
-            {
-              "error": "User not found",
-              "status": 401
-            }
-        """);
+            var user = userRepository.findByUsername(decodedToken).orElseThrow(()->new UsernameNotFoundException("Nome de usuário não encontrado'"));
+
+            var auth = new UsernamePasswordAuthenticationToken(
+                    user,
+                    null,
+                    user.getAuthorities()
+            );
+
+            SecurityContextHolder.getContext().setAuthentication(auth);
+
+        } catch (Exception e) {
+            SecurityContextHolder.clearContext();
         }
+        filterChain.doFilter(request,response);
     }
 }

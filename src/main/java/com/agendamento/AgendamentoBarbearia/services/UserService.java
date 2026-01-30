@@ -38,7 +38,7 @@ public class UserService {
             throw new BusinessException("Email já cadastrado");
         }
 
-        return userFactory(userData,Role.USER_ROLE);
+        return userFactory(userData,Role.USER);
     }
 
     public User createAdmin(CreateUserDTO userData) throws BusinessException{
@@ -49,7 +49,7 @@ public class UserService {
             throw new BusinessException("Email já cadastrado");
         }
 
-        return userFactory(userData,Role.ADMIN_ROLE);
+        return userFactory(userData,Role.ADMIN);
     }
 
     public List<User> getUsers(){
