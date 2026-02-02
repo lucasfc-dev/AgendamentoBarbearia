@@ -18,10 +18,13 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/auth")
 public class AuthController {
-    @Autowired
-    private AuthenticationManager authenticationManager;
-    @Autowired
-    private JWTService jwtService;
+    private final AuthenticationManager authenticationManager;
+    private final JWTService jwtService;
+
+    public AuthController(AuthenticationManager authenticationManager, JWTService jwtService) {
+        this.authenticationManager = authenticationManager;
+        this.jwtService = jwtService;
+    }
 
     @PostMapping("/login")
     public String login(@RequestBody LoginDTO loginData){

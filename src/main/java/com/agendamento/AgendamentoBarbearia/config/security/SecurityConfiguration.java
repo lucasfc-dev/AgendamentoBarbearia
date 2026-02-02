@@ -1,8 +1,10 @@
 package com.agendamento.AgendamentoBarbearia.config.security;
 
+import com.agendamento.AgendamentoBarbearia.config.properties.JWTProperties;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.http.HttpFilter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -19,10 +21,13 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @Configuration
 @EnableWebSecurity
 public class SecurityConfiguration {
-    @Autowired
-    private AuthenticationFilter authenticationFilter;
-    @Autowired
-    private JWTAuthenticationEntryPoint jwtAuthenticationEntryPoint;
+    private final AuthenticationFilter authenticationFilter;
+    private final JWTAuthenticationEntryPoint jwtAuthenticationEntryPoint;
+
+    public SecurityConfiguration(AuthenticationFilter authenticationFilter, JWTAuthenticationEntryPoint jwtAuthenticationEntryPoint) {
+        this.authenticationFilter = authenticationFilter;
+        this.jwtAuthenticationEntryPoint = jwtAuthenticationEntryPoint;
+    }
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http){

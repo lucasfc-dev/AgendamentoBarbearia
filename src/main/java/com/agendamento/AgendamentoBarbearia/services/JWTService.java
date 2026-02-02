@@ -1,5 +1,6 @@
 package com.agendamento.AgendamentoBarbearia.services;
 
+import com.agendamento.AgendamentoBarbearia.config.properties.JWTProperties;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
@@ -13,10 +14,10 @@ import java.time.temporal.ChronoUnit;
 
 @Service
 public class JWTService {
-    private Algorithm algorithm;
+    private final Algorithm algorithm;
 
-    public JWTService(@Value("${api.config.security.secret}") String secret) {
-        algorithm = Algorithm.HMAC256(secret);
+    public JWTService(JWTProperties props) {
+        algorithm = Algorithm.HMAC256(props.getSecret());
     }
 
 

@@ -16,18 +16,21 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
-import java.util.Optional;
 
 @Component
 public class AuthenticationFilter extends OncePerRequestFilter {
-    @Autowired
-    JWTService jwtService;
-    @Autowired
-    UserRepository userRepository;
+    private final JWTService jwtService;
+    private final UserRepository userRepository;
+
+    public AuthenticationFilter(JWTService jwtService, UserRepository userRepository) {
+        this.jwtService = jwtService;
+        this.userRepository = userRepository;
+    }
 
     @Override
     protected void doFilterInternal(
