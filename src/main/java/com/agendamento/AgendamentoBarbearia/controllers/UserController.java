@@ -3,9 +3,7 @@ package com.agendamento.AgendamentoBarbearia.controllers;
 import com.agendamento.AgendamentoBarbearia.dto.CreateUserDTO;
 import com.agendamento.AgendamentoBarbearia.dto.UserResponseDTO;
 import com.agendamento.AgendamentoBarbearia.entities.User;
-import com.agendamento.AgendamentoBarbearia.services.JWTService;
 import com.agendamento.AgendamentoBarbearia.services.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,9 +19,15 @@ public class UserController {
         this.userService = userService;
     }
 
-    @PostMapping
-    public ResponseEntity<UserResponseDTO> createUser(@RequestBody CreateUserDTO userData){
-        User createdUser = userService.createUser(userData);
+    @PostMapping("/client")
+    public ResponseEntity<UserResponseDTO> createClient(@RequestBody CreateUserDTO userData){
+        User createdUser = userService.createClient(userData);
+        return ResponseEntity.ok(UserResponseDTO.from(createdUser));
+    }
+
+    @PostMapping("/barber")
+    public ResponseEntity<UserResponseDTO> createBarber(@RequestBody CreateUserDTO userData){
+        User createdUser = userService.createBarber(userData);
         return ResponseEntity.ok(UserResponseDTO.from(createdUser));
     }
 

@@ -1,17 +1,18 @@
 package com.agendamento.AgendamentoBarbearia.entities;
 
-
-import com.agendamento.AgendamentoBarbearia.enums.Role;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UuidGenerator;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-
+import java.util.Set;
+import java.util.HashSet;
+import java.time.Instant;
 import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
@@ -41,19 +42,25 @@ public class User implements UserDetails {
     @Column(unique = true)
     private String email;
 
-    private Role role;
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "user_roles",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id")
+    )
+    private Set<Role> roles = new HashSet<>();
+
+    @Column(name = "created_at",nullable = false,updatable = false)
+    @CreationTimestamp
+    private Instant createdAt;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        if (role == Role.ADMIN){
-            return List.of(
-                    new SimpleGrantedAuthority("ROLE_ADMIN"),new SimpleGrantedAuthority("ROLE_USER")
-            );
-        }
-        return List.of(
-                new SimpleGrantedAuthority("ROLE_USER")
-        );
+        return roles.stream()
+                .map(role -> new SimpleGrantedAuthority(role.getName()))
+                .toList();
     }
+
 
     @Override
     public boolean isAccountNonExpired() {
