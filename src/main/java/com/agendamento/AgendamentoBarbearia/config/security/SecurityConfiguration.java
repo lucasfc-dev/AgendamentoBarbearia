@@ -1,10 +1,5 @@
 package com.agendamento.AgendamentoBarbearia.config.security;
 
-import com.agendamento.AgendamentoBarbearia.config.properties.JWTProperties;
-import jakarta.servlet.FilterChain;
-import jakarta.servlet.http.HttpFilter;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -41,8 +36,8 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests(auth ->
                         auth
                                 .requestMatchers("/auth/login").permitAll()
-                                .requestMatchers(HttpMethod.POST,"/user").permitAll()
-                                .requestMatchers("/user/admin").hasRole("ADMIN")
+                                .requestMatchers(HttpMethod.POST,"/client").permitAll()
+                                .requestMatchers(HttpMethod.POST,"/admin","/barber").hasRole("ADMIN")
                                 .anyRequest().authenticated()
                 )
                 .addFilterBefore(authenticationFilter, UsernamePasswordAuthenticationFilter.class)

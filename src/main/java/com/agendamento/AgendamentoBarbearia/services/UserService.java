@@ -1,6 +1,7 @@
 package com.agendamento.AgendamentoBarbearia.services;
 
 import com.agendamento.AgendamentoBarbearia.config.security.constants.Roles;
+import com.agendamento.AgendamentoBarbearia.dto.CreateClientDTO;
 import com.agendamento.AgendamentoBarbearia.dto.CreateUserDTO;
 import com.agendamento.AgendamentoBarbearia.entities.User;
 import com.agendamento.AgendamentoBarbearia.entities.Role;
@@ -26,7 +27,7 @@ public class UserService {
         this.passwordEncoder = passwordEncoder;
     }
 
-    private User userFactory(CreateUserDTO userData, String roleName){
+    private User userFactory(CreateClientDTO userData, String roleName){
         if(userRepository.existsByUsername(userData.getUsername())){
             throw new BusinessException("Nome de usuário já existe");
         }
@@ -42,17 +43,17 @@ public class UserService {
         return user;
     }
 
-    public User createClient(CreateUserDTO userData) throws BusinessException{
+    public User createClientUser(CreateClientDTO userData) throws BusinessException{
         User client = userFactory(userData, Roles.CLIENT);
         return userRepository.save(client);
     }
 
-    public User createBarber(CreateUserDTO userData)throws  BusinessException{
+    public User createBarberUser(CreateUserDTO userData)throws  BusinessException{
         User barber = userFactory(userData,Roles.BARBER);
         return userRepository.save(barber);
     }
 
-    public User createAdmin(CreateUserDTO userData) throws BusinessException{
+    public User createAdminUser(CreateUserDTO userData) throws BusinessException{
         User admin = userFactory(userData,Roles.ADMIN);
         return userRepository.save(admin);
     }

@@ -1,0 +1,32 @@
+package com.agendamento.AgendamentoBarbearia.entities;
+
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.hibernate.annotations.UuidGenerator;
+
+import java.util.UUID;
+
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@Entity
+public class Client {
+    @Id
+    @GeneratedValue
+    @UuidGenerator
+    private UUID id;
+
+    @OneToOne(optional = false)
+    @JoinColumn(
+            name = "user_id",
+            nullable = false,
+            unique = true
+    )
+    private User user;
+
+    private String phone;
+}

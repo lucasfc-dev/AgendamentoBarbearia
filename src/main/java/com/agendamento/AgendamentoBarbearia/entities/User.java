@@ -14,7 +14,6 @@ import java.util.Set;
 import java.util.HashSet;
 import java.time.Instant;
 import java.util.Collection;
-import java.util.List;
 import java.util.UUID;
 
 @Getter
@@ -41,6 +40,8 @@ public class User implements UserDetails {
 
     @Column(unique = true)
     private String email;
+
+    private String nome;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
