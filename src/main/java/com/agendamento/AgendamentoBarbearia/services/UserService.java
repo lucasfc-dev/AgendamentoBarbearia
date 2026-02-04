@@ -70,4 +70,19 @@ public class UserService {
     public User getUserByUsername(String username) throws  NotFoundException{
         return userRepository.findByUsername(username).orElseThrow(() -> new NotFoundException("Usuário não encontrado"));
     }
+
+    public void createAdminIfNotExists(CreateUserDTO dto) {
+        if (userRepository.existsByUsername(dto.username())) {
+            return;
+        }
+
+        User admin = userFactory(
+                dto.username(),
+                dto.email(),
+                dto.password(),
+                Roles.ADMIN
+        );
+
+        userRepository.save(admin);
+    }
 }

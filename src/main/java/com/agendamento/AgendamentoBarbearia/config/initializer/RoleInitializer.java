@@ -4,6 +4,7 @@ import com.agendamento.AgendamentoBarbearia.config.constants.Roles;
 import com.agendamento.AgendamentoBarbearia.repositories.RoleRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.ApplicationArguments;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import org.springframework.boot.ApplicationRunner;
 import com.agendamento.AgendamentoBarbearia.entities.Role;
@@ -12,6 +13,7 @@ import com.agendamento.AgendamentoBarbearia.entities.Role;
 
 @Component
 @RequiredArgsConstructor
+@Order(1)
 public class RoleInitializer implements  ApplicationRunner {
 
     private final RoleRepository roleRepository;

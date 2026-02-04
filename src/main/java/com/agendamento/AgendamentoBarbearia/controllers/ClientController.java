@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController("/client")
 public class ClientController {
-    private ClientService clientService;
+    private final ClientService clientService;
 
     public ClientController(ClientService clientService){
         this.clientService=clientService;
