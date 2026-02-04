@@ -1,14 +1,12 @@
 package com.agendamento.AgendamentoBarbearia.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 
-@Getter
-@Setter
-@AllArgsConstructor
-public class CreateUserDTO {
-    String username;
-    String email;
-    String password;
+public record CreateUserDTO(
+        @NotBlank String username,
+        @NotBlank @Email String email,
+        @NotBlank @Size(min = 8, max = 128) String password
+) {
 }

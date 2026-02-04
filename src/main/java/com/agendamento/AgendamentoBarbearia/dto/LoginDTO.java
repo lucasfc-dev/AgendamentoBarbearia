@@ -1,9 +1,9 @@
 package com.agendamento.AgendamentoBarbearia.dto;
 
-import lombok.Getter;
+import jakarta.validation.constraints.NotBlank;
 
-@Getter
-public class LoginDTO {
-    String username;
-    String password;
+public record LoginDTO(
+        @NotBlank String username,
+        @NotBlank String password
+) {
 }

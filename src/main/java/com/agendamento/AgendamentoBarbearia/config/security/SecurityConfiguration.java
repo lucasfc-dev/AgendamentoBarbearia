@@ -35,9 +35,11 @@ public class SecurityConfiguration {
                 .formLogin(form -> form.disable())
                 .authorizeHttpRequests(auth ->
                         auth
+                                .requestMatchers("/error").permitAll()
                                 .requestMatchers("/auth/login").permitAll()
-                                .requestMatchers(HttpMethod.POST,"/client").permitAll()
-                                .requestMatchers(HttpMethod.POST,"/admin","/barber").hasRole("ADMIN")
+                                .requestMatchers("/barber/**").permitAll()
+                                .requestMatchers("/client").permitAll()
+                                .requestMatchers(HttpMethod.POST,"/admin").hasRole("ADMIN")
                                 .anyRequest().authenticated()
                 )
                 .addFilterBefore(authenticationFilter, UsernamePasswordAuthenticationFilter.class)

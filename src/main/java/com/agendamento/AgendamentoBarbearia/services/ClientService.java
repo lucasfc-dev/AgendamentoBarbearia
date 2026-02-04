@@ -20,7 +20,7 @@ public class ClientService {
         User user = userService.createClientUser(clientDTO);
         Client client = new Client();
         client.setUser(user);
-        client.setPhone(client.getPhone());
+        client.setPhone(clientDTO.phone());
         clientRepository.save(client);
         return client;
     }

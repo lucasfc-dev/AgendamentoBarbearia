@@ -1,4 +1,4 @@
-package com.agendamento.AgendamentoBarbearia.config.security.constants;
+package com.agendamento.AgendamentoBarbearia.config.constants;
 
 public final class Roles {
 

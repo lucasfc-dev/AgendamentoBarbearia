@@ -1,6 +1,7 @@
 package com.agendamento.AgendamentoBarbearia.exceptions.handlers;
 
 import com.agendamento.AgendamentoBarbearia.exceptions.classes.BusinessException;
+import com.agendamento.AgendamentoBarbearia.exceptions.classes.MediaUploadException;
 import com.agendamento.AgendamentoBarbearia.exceptions.classes.NotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,9 +20,17 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler({UsernameNotFoundException.class, NotFoundException.class})
-    public ResponseEntity<String> notFoundException(RuntimeException ex){
+    public ResponseEntity<String> notFoundException(UsernameNotFoundException ex){
         return ResponseEntity
                 .status(HttpStatus.NOT_FOUND)
                 .body(ex.getMessage());
     }
+
+    @ExceptionHandler(MediaUploadException.class)
+    public ResponseEntity<String> mediaUploadException(MediaUploadException ex){
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(ex.getMessage());
+    }
+
 }

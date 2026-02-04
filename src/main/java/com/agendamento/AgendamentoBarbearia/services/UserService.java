@@ -1,6 +1,7 @@
 package com.agendamento.AgendamentoBarbearia.services;
 
-import com.agendamento.AgendamentoBarbearia.config.security.constants.Roles;
+import com.agendamento.AgendamentoBarbearia.config.constants.Roles;
+import com.agendamento.AgendamentoBarbearia.dto.CreateBarberDTO;
 import com.agendamento.AgendamentoBarbearia.dto.CreateClientDTO;
 import com.agendamento.AgendamentoBarbearia.dto.CreateUserDTO;
 import com.agendamento.AgendamentoBarbearia.entities.User;
@@ -27,34 +28,34 @@ public class UserService {
         this.passwordEncoder = passwordEncoder;
     }
 
-    private User userFactory(CreateClientDTO userData, String roleName){
-        if(userRepository.existsByUsername(userData.getUsername())){
+    private User userFactory(String username, String email, String rawPassword, String roleName){
+        if(userRepository.existsByUsername(username)){
             throw new BusinessException("Nome de usuário já existe");
         }
-        if(userRepository.existsByEmail(userData.getEmail())){
+        if(userRepository.existsByEmail(email)){
             throw new BusinessException("Email já cadastrado");
         }
         User user = new User();
-        user.setUsername(userData.getUsername());
-        user.setPassword(passwordEncoder.encode(userData.getPassword()));
-        user.setEmail(userData.getEmail());
+        user.setUsername(username);
+        user.setPassword(passwordEncoder.encode(rawPassword));
+        user.setEmail(email);
         Role role = roleRepository.findByName(roleName).orElseThrow(() -> new NotFoundException("Role não encontrada"));
         user.getRoles().add(role);
         return user;
     }
 
     public User createClientUser(CreateClientDTO userData) throws BusinessException{
-        User client = userFactory(userData, Roles.CLIENT);
+        User client = userFactory(userData.username(), userData.email(), userData.password(), Roles.CLIENT);
         return userRepository.save(client);
     }
 
-    public User createBarberUser(CreateUserDTO userData)throws  BusinessException{
-        User barber = userFactory(userData,Roles.BARBER);
+    public User createBarberUser(CreateBarberDTO userData)throws  BusinessException{
+        User barber = userFactory(userData.username(), userData.email(), userData.password(), Roles.BARBER);
         return userRepository.save(barber);
     }
 
     public User createAdminUser(CreateUserDTO userData) throws BusinessException{
-        User admin = userFactory(userData,Roles.ADMIN);
+        User admin = userFactory(userData.username(), userData.email(), userData.password(), Roles.ADMIN);
         return userRepository.save(admin);
     }
 

@@ -5,6 +5,7 @@ import com.agendamento.AgendamentoBarbearia.dto.UserResponseDTO;
 import com.agendamento.AgendamentoBarbearia.entities.User;
 import com.agendamento.AgendamentoBarbearia.services.AuthenticationService;
 import com.agendamento.AgendamentoBarbearia.services.JWTService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -27,10 +28,10 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public String login(@RequestBody LoginDTO loginData){
-        var auth = new UsernamePasswordAuthenticationToken(loginData.getUsername(),loginData.getPassword());
+    public String login(@Valid @RequestBody LoginDTO loginData){
+        var auth = new UsernamePasswordAuthenticationToken(loginData.username(), loginData.password());
         authenticationManager.authenticate(auth);
-        return jwtService.generateToken(loginData.getUsername());
+        return jwtService.generateToken(loginData.username());
     }
 
     //O Spring injeta automaticamente a instância de Authentication criada no SecurityFilter;

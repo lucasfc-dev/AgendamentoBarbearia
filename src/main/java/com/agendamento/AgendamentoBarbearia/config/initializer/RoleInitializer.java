@@ -1,5 +1,6 @@
-package com.agendamento.AgendamentoBarbearia.config.bootstrap;
+package com.agendamento.AgendamentoBarbearia.config.initializer;
 
+import com.agendamento.AgendamentoBarbearia.config.constants.Roles;
 import com.agendamento.AgendamentoBarbearia.repositories.RoleRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.ApplicationArguments;
@@ -17,9 +18,9 @@ public class RoleInitializer implements  ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments args) {
-        seed("ROLE_ADMIN");
-        seed("ROLE_BARBER");
-        seed("ROLE_CLIENT");
+        seed(Roles.ADMIN);
+        seed(Roles.BARBER);
+        seed(Roles.CLIENT);
     }
 
     private void seed(String name) {

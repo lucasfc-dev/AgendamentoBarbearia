@@ -9,27 +9,17 @@ import org.hibernate.annotations.UuidGenerator;
 
 import java.util.UUID;
 
-@Getter
-@Setter
+
+@Getter @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@Table(name = "service_item")
 @Entity
-public class Barber {
+public class ServiceItem {
     @Id
     @GeneratedValue
     @UuidGenerator
     private UUID id;
 
-    @OneToOne(optional = false)
-    @JoinColumn(
-            name = "user_id",
-            nullable = false,
-            unique = true
-    )
-    private User user;
 
-    private String phone;
-
-    @Lob
-    private byte[] photo;
 }
