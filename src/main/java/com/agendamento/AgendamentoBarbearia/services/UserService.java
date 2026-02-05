@@ -1,6 +1,6 @@
 package com.agendamento.AgendamentoBarbearia.services;
 
-import com.agendamento.AgendamentoBarbearia.config.constants.Roles;
+import com.agendamento.AgendamentoBarbearia.config.enums.Roles;
 import com.agendamento.AgendamentoBarbearia.dto.CreateBarberDTO;
 import com.agendamento.AgendamentoBarbearia.dto.CreateClientDTO;
 import com.agendamento.AgendamentoBarbearia.dto.CreateUserDTO;
@@ -45,17 +45,17 @@ public class UserService {
     }
 
     public User createClientUser(CreateClientDTO userData) throws BusinessException{
-        User client = userFactory(userData.username(), userData.email(), userData.password(), Roles.CLIENT);
+        User client = userFactory(userData.username(), userData.email(), userData.password(), Roles.ROLE_CLIENT.name());
         return userRepository.save(client);
     }
 
     public User createBarberUser(CreateBarberDTO userData)throws  BusinessException{
-        User barber = userFactory(userData.username(), userData.email(), userData.password(), Roles.BARBER);
+        User barber = userFactory(userData.username(), userData.email(), userData.password(), Roles.ROLE_BARBER.name());
         return userRepository.save(barber);
     }
 
     public User createAdminUser(CreateUserDTO userData) throws BusinessException{
-        User admin = userFactory(userData.username(), userData.email(), userData.password(), Roles.ADMIN);
+        User admin = userFactory(userData.username(), userData.email(), userData.password(), Roles.ROLE_ADMIN.name());
         return userRepository.save(admin);
     }
 
@@ -80,7 +80,7 @@ public class UserService {
                 dto.username(),
                 dto.email(),
                 dto.password(),
-                Roles.ADMIN
+                Roles.ROLE_ADMIN.name()
         );
 
         userRepository.save(admin);
