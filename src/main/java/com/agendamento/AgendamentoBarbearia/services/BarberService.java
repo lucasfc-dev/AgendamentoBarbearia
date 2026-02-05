@@ -13,8 +13,8 @@ import java.util.UUID;
 
 @Service
 public class BarberService {
-    private BarberRepository barberRepository;
-    private UserService userService;
+    private final BarberRepository barberRepository;
+    private final UserService userService;
 
     public BarberService(BarberRepository barberRepository, UserService userService) {
         this.barberRepository = barberRepository;

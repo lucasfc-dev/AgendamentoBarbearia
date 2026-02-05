@@ -8,8 +8,8 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class ClientService {
-    private UserService userService;
-    private ClientRepository clientRepository;
+    private final UserService userService;
+    private final ClientRepository clientRepository;
 
     public ClientService(UserService userService, ClientRepository clientRepository){
         this.userService = userService;
