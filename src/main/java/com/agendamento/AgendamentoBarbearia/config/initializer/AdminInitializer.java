@@ -22,6 +22,7 @@ public class AdminInitializer implements ApplicationRunner{
 
     @Override
     public void run(@NonNull ApplicationArguments args) throws Exception {
+        System.out.println("Iniciando admin ...");
         seedAdminUser();
     }
 

@@ -10,6 +10,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.security.autoconfigure.actuate.web.servlet.SecurityRequestMatchersManagementContextConfiguration;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -20,16 +21,19 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+import javax.security.sasl.AuthenticationException;
 import java.io.IOException;
 
 @Component
 public class AuthenticationFilter extends OncePerRequestFilter {
     private final JWTService jwtService;
     private final UserRepository userRepository;
+    private final JWTAuthenticationEntryPoint entryPoint;
 
-    public AuthenticationFilter(JWTService jwtService, UserRepository userRepository) {
+    public AuthenticationFilter(JWTService jwtService, UserRepository userRepository, JWTAuthenticationEntryPoint entryPoint) {
         this.jwtService = jwtService;
         this.userRepository = userRepository;
+        this.entryPoint = entryPoint;
     }
 
     @Override
@@ -61,6 +65,8 @@ public class AuthenticationFilter extends OncePerRequestFilter {
 
         } catch (Exception e) {
             SecurityContextHolder.clearContext();
+            entryPoint.commence(request, response, new BadCredentialsException("Token Inválido"));
+            return;
         }
         filterChain.doFilter(request,response);
     }

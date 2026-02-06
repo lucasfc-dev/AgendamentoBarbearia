@@ -20,9 +20,9 @@ public class JWTAuthenticationEntryPoint implements AuthenticationEntryPoint {
             {
               "status": 401,
               "error": "Não autenticado",
-              "message": "Token inválido ou não informado",
+              "message": "%s",
               "path": "%s"
             }
-        """.formatted(request.getRequestURI()));
+        """.formatted(authException.getMessage(),request.getRequestURI()));
     }
 }

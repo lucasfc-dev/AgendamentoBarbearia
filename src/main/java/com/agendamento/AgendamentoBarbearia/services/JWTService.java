@@ -34,15 +34,11 @@ public class JWTService {
     }
 
     public String verifyToken(String token){
-        try {
-            JWTVerifier verifier = JWT.require(algorithm)
-                    .withIssuer("barbearia-api")
-                    .build();
-            var decodedJWT = verifier.verify(token);
-            return decodedJWT.getSubject();
-        } catch (JWTVerificationException exception){
-            return "";
-        }
+        JWTVerifier verifier = JWT.require(algorithm)
+                .withIssuer("barbearia-api")
+                .build();
+        var decodedJWT = verifier.verify(token);
+        return decodedJWT.getSubject();
     }
 
     private Instant getExpirationTime() {
