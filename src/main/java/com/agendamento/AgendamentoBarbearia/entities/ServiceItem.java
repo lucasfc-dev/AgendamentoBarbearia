@@ -4,9 +4,11 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UuidGenerator;
 
 import java.math.BigDecimal;
+import java.time.Instant;
 import java.util.UUID;
 
 
@@ -17,7 +19,7 @@ import java.util.UUID;
 public class ServiceItem {
     @Id
     @GeneratedValue
-    @UuidGenerator
+    @UuidGenerator(style = UuidGenerator.Style.VERSION_7)
     private UUID id;
 
     private String name;
@@ -27,4 +29,8 @@ public class ServiceItem {
 
     @Column(nullable = false)
     private Boolean active = true;
+
+    @CreationTimestamp
+    @Column(name = "created_at",nullable = false, updatable = false)
+    private Instant createdAt;
 }

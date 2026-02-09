@@ -9,6 +9,7 @@ import com.agendamento.AgendamentoBarbearia.repositories.BarberRepository;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -39,5 +40,13 @@ public class BarberService {
                 () -> new NotFoundException("Barber não encontrado")
         );
         return barber.getPhoto();
+    }
+
+    public List<Barber> getBarbers(){
+        return barberRepository.findAll();
+    }
+
+    public Barber getBarberById(UUID id) throws NotFoundException{
+        return barberRepository.findById(id).orElseThrow(() -> new NotFoundException("Barber não encontrado"));
     }
 }

@@ -3,17 +3,12 @@ package com.agendamento.AgendamentoBarbearia.controllers;
 import com.agendamento.AgendamentoBarbearia.dto.LoginDTO;
 import com.agendamento.AgendamentoBarbearia.dto.UserResponseDTO;
 import com.agendamento.AgendamentoBarbearia.entities.User;
-import com.agendamento.AgendamentoBarbearia.services.AuthenticationService;
 import com.agendamento.AgendamentoBarbearia.services.JWTService;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 @RestController

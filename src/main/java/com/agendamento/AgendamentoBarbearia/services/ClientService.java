@@ -3,8 +3,12 @@ package com.agendamento.AgendamentoBarbearia.services;
 import com.agendamento.AgendamentoBarbearia.dto.CreateClientDTO;
 import com.agendamento.AgendamentoBarbearia.entities.Client;
 import com.agendamento.AgendamentoBarbearia.entities.User;
+import com.agendamento.AgendamentoBarbearia.exceptions.classes.NotFoundException;
 import com.agendamento.AgendamentoBarbearia.repositories.ClientRepository;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.UUID;
 
 @Service
 public class ClientService {
@@ -23,6 +27,14 @@ public class ClientService {
         client.setPhone(clientDTO.phone());
         clientRepository.save(client);
         return client;
+    }
+
+    public List<Client> getClients(){
+        return clientRepository.findAll();
+    }
+
+    public Client getClientById(UUID id) throws  NotFoundException{
+        return clientRepository.findById(id).orElseThrow(() -> new NotFoundException("Client não encontrado"));
     }
 
 }

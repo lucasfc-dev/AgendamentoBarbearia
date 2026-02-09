@@ -15,7 +15,7 @@ import java.util.UUID;
 public class Client {
     @Id
     @GeneratedValue
-    @UuidGenerator
+    @UuidGenerator(style = UuidGenerator.Style.VERSION_7)
     private UUID id;
 
     @OneToOne(optional = false)

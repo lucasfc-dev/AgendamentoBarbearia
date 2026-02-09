@@ -29,7 +29,7 @@ import java.util.UUID;
 public class User implements UserDetails {
     @Id
     @GeneratedValue
-    @UuidGenerator
+    @UuidGenerator(style = UuidGenerator.Style.VERSION_7)
     private UUID id;
 
     @Column(unique = true)

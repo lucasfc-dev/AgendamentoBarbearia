@@ -17,7 +17,7 @@ import java.util.UUID;
 public class Appointment {
     @Id
     @GeneratedValue
-    @UuidGenerator
+    @UuidGenerator(style = UuidGenerator.Style.VERSION_7)
     private UUID id;
 
     @ManyToOne(optional = false)
@@ -40,6 +40,6 @@ public class Appointment {
     private AppointmentStatus status;
 
     @CreationTimestamp
-    @Column(nullable = false, updatable = false)
+    @Column(name = "created_at",nullable = false, updatable = false)
     private Instant createdAt;
 }

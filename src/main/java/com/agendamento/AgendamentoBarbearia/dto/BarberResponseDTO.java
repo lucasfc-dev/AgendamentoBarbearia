@@ -2,6 +2,7 @@ package com.agendamento.AgendamentoBarbearia.dto;
 
 import com.agendamento.AgendamentoBarbearia.entities.Barber;
 
+import java.time.Instant;
 import java.util.UUID;
 
 public record BarberResponseDTO(
@@ -9,7 +10,8 @@ public record BarberResponseDTO(
         UUID userId,
         String username,
         String email,
-        String phone
+        String phone,
+        Instant createdAt
 ) {
     public static BarberResponseDTO from(Barber barber){
         return new BarberResponseDTO(
@@ -17,7 +19,8 @@ public record BarberResponseDTO(
                 barber.getUser().getId(),
                 barber.getUser().getUsername(),
                 barber.getUser().getEmail(),
-                barber.getPhone()
+                barber.getPhone(),
+                barber.getUser().getCreatedAt()
         );
     }
 }
