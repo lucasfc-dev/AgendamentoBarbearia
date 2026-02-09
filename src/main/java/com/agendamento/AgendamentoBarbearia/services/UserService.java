@@ -4,8 +4,8 @@ import com.agendamento.AgendamentoBarbearia.config.enums.Roles;
 import com.agendamento.AgendamentoBarbearia.dto.CreateBarberDTO;
 import com.agendamento.AgendamentoBarbearia.dto.CreateClientDTO;
 import com.agendamento.AgendamentoBarbearia.dto.CreateUserDTO;
-import com.agendamento.AgendamentoBarbearia.entities.User;
 import com.agendamento.AgendamentoBarbearia.entities.Role;
+import com.agendamento.AgendamentoBarbearia.entities.User;
 import com.agendamento.AgendamentoBarbearia.exceptions.classes.BusinessException;
 import com.agendamento.AgendamentoBarbearia.exceptions.classes.NotFoundException;
 import com.agendamento.AgendamentoBarbearia.repositories.RoleRepository;
@@ -59,18 +59,6 @@ public class UserService {
         return userRepository.save(admin);
     }
 
-    public List<User> getUsers(){
-        return userRepository.findAll();
-    }
-
-    public User getUserById(UUID id){
-        return userRepository.findById(id).orElseThrow(() -> new NotFoundException("Usuário não encontrado"));
-    }
-
-    public User getUserByUsername(String username) throws  NotFoundException{
-        return userRepository.findByUsername(username).orElseThrow(() -> new NotFoundException("Usuário não encontrado"));
-    }
-
     public void createAdminIfNotExists(CreateUserDTO dto) {
         if (userRepository.existsByUsername(dto.username())) {
             return;
@@ -84,5 +72,24 @@ public class UserService {
         );
 
         userRepository.save(admin);
+    }
+
+    public List<User> getUsers(){
+        return userRepository.findAll();
+    }
+
+    public User getUserById(UUID id){
+        return userRepository.findById(id).orElseThrow(() -> new NotFoundException("Usuário não encontrado"));
+    }
+
+    public User getUserByUsername(String username) throws  NotFoundException{
+        return userRepository.findByUsername(username).orElseThrow(() -> new NotFoundException("Usuário não encontrado"));
+    }
+
+    public List<User> getUsersByRoleName(Roles roleEnum){
+        Role role = roleRepository.findByName(roleEnum.name()).orElseThrow(
+                () -> new NotFoundException("Nome de role não encontrada.")
+        );
+        return userRepository.findByRolesContaining(role);
     }
 }

@@ -39,7 +39,7 @@ public class SecurityConfiguration {
                                 .requestMatchers("/auth/login").permitAll()
                                 .requestMatchers(HttpMethod.POST,"/barber").hasRole("ADMIN")
                                 .requestMatchers("/client").permitAll()
-                                .requestMatchers(HttpMethod.POST,"/admin").hasRole("ADMIN")
+                                .requestMatchers("/admin").hasRole("ADMIN")
                                 .anyRequest().authenticated()
                 )
                 .addFilterBefore(authenticationFilter, UsernamePasswordAuthenticationFilter.class)
