@@ -21,6 +21,7 @@ public class ServiceItemService {
         ServiceItem serviceItem = new ServiceItem();
         serviceItem.setName(serviceData.name());
         serviceItem.setCost(serviceData.cost());
+        serviceItem.setDurationMinutes(serviceData.durationMinutes());
         return serviceItemRepository.save(serviceItem);
     }
 

@@ -27,6 +27,8 @@ public class ServiceItem {
     @Column(precision = 10, scale = 2)
     private BigDecimal cost;
 
+    private Integer durationMinutes;
+
     @Column(nullable = false)
     private Boolean active = true;
 

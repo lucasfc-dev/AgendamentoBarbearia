@@ -6,6 +6,7 @@ import java.time.Instant;
 public record CreateServiceItemDTO(
         String name,
         BigDecimal cost,
+        Integer durationMinutes,
         Instant createdAt
 ) {
 }

@@ -1,6 +1,7 @@
 package com.agendamento.AgendamentoBarbearia.exceptions.handlers;
 
 import com.agendamento.AgendamentoBarbearia.exceptions.classes.BusinessException;
+import com.agendamento.AgendamentoBarbearia.exceptions.classes.ConflictException;
 import com.agendamento.AgendamentoBarbearia.exceptions.classes.MediaUploadException;
 import com.agendamento.AgendamentoBarbearia.exceptions.classes.NotFoundException;
 import org.springframework.http.HttpStatus;
@@ -31,6 +32,11 @@ public class GlobalExceptionHandler {
         return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST)
                 .body(ex.getMessage());
+    }
+
+    @ExceptionHandler(ConflictException.class)
+    public ResponseEntity<String> conflictException(ConflictException ex){
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(ex.getMessage());
     }
 
 }
